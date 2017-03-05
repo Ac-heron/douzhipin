@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.tuxun.customer.module.admin.dao.IUserDao">
+	
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+	
+	<resultMap id="UserMap" type="User">
+		<id property="id" column="ID" jdbcType="NVARCHAR"/>
+		<id property="userTypeId" column="USER_TYPE_ID" jdbcType="NVARCHAR"/>
+		<id property="userType" column="USER_TYPE" jdbcType="NVARCHAR"/>
+		<id property="userCode" column="USER_CODE" jdbcType="NVARCHAR"/>
+		<id property="userName" column="USER_NAME" jdbcType="NVARCHAR"/>
+		<id property="userPwd" column="USER_PWD" jdbcType="NVARCHAR"/>
+		<id property="areaName" column="AREA_NAME" jdbcType="NVARCHAR"/>
+		<id property="areaCode" column="AREA_CODE" jdbcType="NVARCHAR"/>
+		<id property="status" column="STATUS" jdbcType="NVARCHAR"/>
+		<id property="linkePhone" column="LINKE_PHONE" jdbcType="NVARCHAR"/>
+		<id property="linkeName" column="LINKE_NAME" jdbcType="NVARCHAR"/>
+		<result property="currentRoleId" column="CURRENT_ROLE_ID" />
+		
+		<association property="currentRole" column="id" javaType="Role" 
+		select="net.tuxun.customer.module.admin.dao.IRoleDao.listRoleByUserId" />
+		
+		<collection property="roles" column="id" javaType="ArrayList" 
+		ofType="Role" select="net.tuxun.customer.module.admin.dao.IRoleDao.listRoleByUserId" />
+	</resultMap>
+	
+	<select id="select" resultMap="UserMap" parameterType="string">
+		SELECT
+			A.ID AS id,
+			A.USER_TYPE_ID AS userTypeId ,
+			A.USER_CODE AS userCode ,
+			A.USER_NAME AS userName ,
+			A.USER_PWD AS userPwd ,
+			A.AREA_NAME AS areaName ,
+			A.AREA_CODE AS areaCode ,
+			A.STATUS AS status ,
+			A.LINKE_PHONE AS linkePhone ,
+			A.LINKE_NAME AS linkeName 
+		FROM 
+			User  A
+		WHERE
+			 A.ID = #{id} 
+	</select>
+	
+	
+	<select id="listTreeNodes" resultType="TreeNode">
+		SELECT
+			A.USER_CODE AS id,
+			A.USER_NAME AS text
+		FROM
+			User A
+	</select>
+	
+	<select id="selectByUsername" resultMap="UserMap" resultType="User" parameterType="string">
+		SELECT
+			A.ID AS id,
+			A.USER_TYPE_ID AS userTypeId ,
+			A.USER_CODE AS userCode ,
+			A.USER_NAME AS userName ,
+			A.USER_PWD AS userPwd ,
+			A.AREA_NAME AS areaName ,
+			A.AREA_CODE AS areaCode ,
+			A.STATUS AS status ,
+			A.LINKE_PHONE AS linkePhone ,
+			A.LINKE_NAME AS linkeName ,
+			A.CURRENT_ROLE_ID AS currentRoleId
+		FROM 
+			User  A
+		WHERE
+			 A.USER_CODE = #{userCode} 
+	</select>
+	
+	<insert id="insert" parameterType="User">
+		INSERT INTO User  (
+			USER_TYPE_ID,
+			ID,
+			USER_CODE,
+			USER_NAME,
+			USER_PWD,
+			AREA_NAME,
+			AREA_CODE,
+			STATUS,
+			LINKE_PHONE,
+			LINKE_NAME,
+			CURRENT_ROLE_ID
+		) VALUES (
+			#{userTypeId, jdbcType=NVARCHAR},
+			#{id, jdbcType=NVARCHAR},
+			#{userCode, jdbcType=NVARCHAR},
+			#{userName, jdbcType=NVARCHAR},
+			#{userPwd, jdbcType=NVARCHAR},
+			#{areaName, jdbcType=NVARCHAR},
+			#{areaCode, jdbcType=NVARCHAR},
+			#{status, jdbcType=NVARCHAR},
+			#{linkePhone, jdbcType=NVARCHAR},
+			#{linkeName, jdbcType=NVARCHAR},
+			#{currentRoleId, jdbcType=NVARCHAR}
+		)
+	</insert>
+	
+	<update id="update" parameterType="User">
+		UPDATE 
+			User  
+		SET
+			USER_TYPE_ID = #{userTypeId, jdbcType=NVARCHAR},
+			ID = #{id, jdbcType=NVARCHAR},
+			USER_CODE = #{userCode, jdbcType=NVARCHAR},
+			USER_NAME = #{userName, jdbcType=NVARCHAR},
+			USER_PWD = #{userPwd, jdbcType=NVARCHAR},
+			AREA_NAME = #{areaName, jdbcType=NVARCHAR},
+			AREA_CODE = #{areaCode, jdbcType=NVARCHAR},
+			STATUS = #{status, jdbcType=NVARCHAR},
+			LINKE_PHONE = #{linkePhone, jdbcType=NVARCHAR},
+			LINKE_NAME = #{linkeName, jdbcType=NVARCHAR},
+			CURRENT_ROLE_ID = #{currentRoleId, jdbcType=NVARCHAR}
+    	WHERE 
+    		ID = #{id} 
+	</update>
+	
+	<update id="updateNotNull" parameterType="User">
+		UPDATE 
+			User  
+		<set>
+			<if test="userTypeId != null">
+				USER_TYPE_ID = #{userTypeId},
+			</if>
+			<if test="id != null">
+				ID = #{id},
+			</if>
+			<if test="userCode != null">
+				USER_CODE = #{userCode},
+			</if>
+			<if test="userName != null">
+				USER_NAME = #{userName},
+			</if>
+			<if test="userPwd != null">
+				USER_PWD = #{userPwd},
+			</if>
+			<if test="areaName != null">
+				AREA_NAME = #{areaName},
+			</if>
+			<if test="areaCode != null">
+				AREA_CODE = #{areaCode},
+			</if>
+			<if test="status != null">
+				STATUS = #{status},
+			</if>
+			<if test="linkePhone != null">
+				LINKE_PHONE = #{linkePhone},
+			</if>
+			<if test="linkeName != null">
+				LINKE_NAME = #{linkeName},
+			</if>
+			<if test="currentRoleId != null">
+				CURRENT_ROLE_ID = #{currentRoleId}
+			</if>
+		</set>
+    	WHERE 
+    		ID = #{id} 
+	</update>
+	
+	<delete id="delete" parameterType="string">
+		DELETE FROM 
+			User 
+		<where>
+			<foreach item="item" collection="_parameter.split(',')">
+				OR ID = #{item}
+			</foreach>
+		</where> 
+	</delete>
+
+	<update id="updateRoleId" parameterType="string">
+		UPDATE 
+			User  
+		SET
+			CURRENT_ROLE_ID = #{roleId, jdbcType=NVARCHAR}
+    	WHERE 
+    		ID = #{userId} 
+	</update>
+
+	<select id="listPage" resultMap="UserMap">
+		SELECT 
+			A.ID AS id,
+			A.USER_TYPE_ID AS userTypeId ,
+			A.USER_CODE AS userCode ,
+			A.USER_NAME AS userName ,
+			A.USER_PWD AS userPwd ,
+			A.AREA_NAME AS areaName ,
+			A.AREA_CODE AS areaCode ,
+			A.STATUS AS status ,
+			A.LINKE_PHONE AS linkePhone ,
+			A.LINKE_NAME AS linkeName 
+		FROM 
+			User AS A
+		<where>
+			<if test="search.id != null and search.id != '' ">
+				AND A.ID = #{search.id}
+			</if>
+			<if test="search.userTypeId != null and search.userTypeId != '' ">
+				AND A.USER_TYPE_ID = #{search.userTypeId}
+			</if>
+			<if test="search.userCode != null and search.userCode != '' ">
+				AND A.USER_CODE LIKE CONCAT(CONCAT('%',#{search.userCode}),'%')
+			</if>
+			<if test="search.userName != null and search.userName != '' ">
+				AND A.USER_NAME LIKE CONCAT(CONCAT('%',#{search.userName}),'%')
+			</if>
+			<if test="search.userPwd != null and search.userPwd != '' ">
+				AND A.USER_PWD = #{search.userPwd}
+			</if>
+			<if test="search.areaName != null and search.areaName != '' ">
+				AND A.AREA_NAME = #{search.areaName}
+			</if>
+			<if test="search.areaCode != null and search.areaCode != '' ">
+				AND A.AREA_CODE = #{search.areaCode}
+			</if>
+			<if test="search.status != null and search.status != '' ">
+				AND A.STATUS = #{search.status}
+			</if>
+			<if test="search.linkePhone != null and search.linkePhone != '' ">
+				AND A.LINKE_PHONE = #{search.linkePhone}
+			</if>
+			<if test="search.linkeName != null and search.linkeName != '' ">
+				AND A.LINKE_NAME LIKE CONCAT(CONCAT('%',#{search.linkeName}),'%')
+			</if>
+		</where>
+		<if test="collates != null and collates.size > 0">
+		<foreach item="item" collection="collates" 
+                        open="ORDER BY" separator=",">
+                ${item.sortField} ${item.sortType}
+           </foreach>
+		</if>
+	</select>
+</mapper>

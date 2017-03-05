@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:util="http://www.springframework.org/schema/util"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd"
+	default-lazy-init="true">
+	
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<property name="securityManager" ref="securityManager" />
+		<property name="loginUrl" value="/back/login.do" />
+		<property name="successUrl" value="/back/index.do" />
+		<property name="filters">
+			<util:map>
+				<entry key="authc" value-ref="authcFilter" />
+				<entry key="user" value-ref="userFilter" />
+				<entry key="logout" value-ref="logoutFilter" />
+			</util:map>
+		</property>
+		<property name="filterChainDefinitions">
+			<value>
+				/ = anon
+				*.jsp = anon
+				*.html = anon
+				
+				/back/login.do = authc
+				/back/logout.do = logout
+
+				/**/*.do* = user
+			</value>
+		</property>
+	</bean>
+	
+	<!-- 登录认证 -->
+	<bean id="authcFilter" class="net.tuxun.customer.module.admin.shiro.SecAuthenticationFilter"/>
+	
+	<!-- 权限过滤 -->
+	<bean id="userFilter" class="net.tuxun.customer.module.admin.shiro.SecUserFilter"/>
+	
+	<!-- 注销处理 -->
+	<bean id="logoutFilter" class="net.tuxun.customer.module.admin.shiro.SecLogoutFilter"/>
+	
+	<!-- Shiro's main business-tier object for web-enabled applications -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<property name="realm" ref="shiroDbRealm" />
+		<property name="cacheManager" ref="shiroEhcacheManager" />
+		<property name="rememberMeManager" ref="lightCookieRememberMeManager"/>
+	</bean>
+	
+	<!-- 保证实现了Shiro内部lifecycle函数的bean执行 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
+
+	<!-- 项目自定义的Realm -->
+	<bean id="shiroDbRealm" class="net.tuxun.customer.module.admin.shiro.SecDbRealm"/>
+
+	<!-- 用户授权信息Cache, 采用EhCache -->
+	<bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManagerConfigFile" value="classpath:conf/core/ehcache-shiro.xml"/>
+	</bean>
+	
+	<!-- 自定义cookie管理器 -->
+	<bean id="lightCookieRememberMeManager" class="net.tuxun.customer.module.admin.shiro.cookie.LightCookieRememberMeManager"/>
+</beans>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menus>
+	<menu sort="0" key="homepage" name="豆制品"  img="guide1.png">
+		<menu sort="0" key="homepageTwo" name="豆制品" >
+			<menu sort="0" key="welCome" name="豆制品" img="homepage.png">
+				<menu sort="0" key="contract:bcContract:list" name="配送发货单" url="/contract/bcContract/list.do">
+					<perm sort="0" name="查看" code="contract:bcContract:view"/>
+				</menu>
+                <!--				<menu sort="3" key="system" name="店管理" url="/contract/bcContract/list.do">
+                                    <perm sort="0" name="我的任务列表" code="tasks:tTask:mylist"/>           
+                                </menu>
+                                <menu sort="4" key="rwrl" name="豆制品管理" url="/contract/bcContract/list.do">
+                                    <perm sort="0" name="任务任领" code="tasks:tTask:claimlist"/>           
+                                </menu>-->
+				
+			</menu>
+<!--			<menu sort="1" key="editMyself" name="资料设置"  img="editMyself.png">
+				<menu sort="2" key="own" name="维护个人资料" url="/entadmin/user/own.do">
+					<perm sort="0" name="修改" code="admin:user:toAlterOwn"/>
+					<perm sort="1" name="更新" code="admin:user:alterOwn"/>
+				</menu>
+				<menu sort="3" key="pwd" name="修改登录密码" url="/entadmin/user/pwd.do">
+					<perm sort="0" name="更新" code="admin:user:pwd"/>
+				</menu>
+			</menu>-->
+		</menu>
+	</menu>
+</menus>

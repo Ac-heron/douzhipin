@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<menus>
+	<menu sort="9" key="entManager" name="系统管理" img="guide7.png" >
+		<menu sort="0" key="entManagerTwo" name="系统管理" >
+			<menu sort="0" key="entManagerThree" name="系统管理" img="xitong1.png">
+				<menu sort="0" key="enterpriseBasic" name="用户管理"
+					url="/entadmin/user/list.do">
+					<perm sort="0" name="查看" code="user:userBasic:view" />
+					<perm sort="1" name="新增" code="user:userBasic:toAdd" />
+					<perm sort="2" name="添加" code="user:userBasic:add" />
+					<perm sort="3" name="修改" code="user:userBasic:toAlter" />
+					<perm sort="4" name="更新" code="user:userBasic:alter" />
+					<perm sort="5" name="列表" code="user:userBasic:list" />
+					<perm sort="6" name="删除" code="user:userBasic:remove" />
+				</menu>
+				<menu sort="2" key="role" name="角色管理" url="/entadmin/role/list.do">
+					<perm sort="0" name="查看" code="admin:role:view"/>
+					<perm sort="1" name="添加" code="admin:role:toAdd"/>
+					<perm sort="2" name="修改" code="admin:role:toAlter"/>
+					<perm sort="3" name="保存" code="admin:role:add"/>
+					<perm sort="4" name="更新" code="admin:role:alter"/>
+					<perm sort="5" name="列表" code="admin:role:list"/>
+					<perm sort="6" name="删除" code="admin:role:remove"/>
+				</menu>
+			</menu>
+		</menu>
+	</menu> 
+</menus>

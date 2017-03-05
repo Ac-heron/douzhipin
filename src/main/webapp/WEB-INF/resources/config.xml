@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ReportServerParameter xmlVersion="20140501" releaseVersion="7.1.0">
+<ServerLogLevel>
+<![CDATA[WARNING]]></ServerLogLevel>
+<LOGCNG/>
+<FARRAY/>
+<Write serverCharacterEncoding="GBK"/>
+<GZip run="false"/>
+<Lic useLock="false"/>
+<ServletMapping pattern="ReportServer"/>
+<ChromeChart downLocal="false"/>
+<JbossWebappName name="WebReport"/>
+<Hyperlink defaultLinkPath=""/>
+<EmailManager password="___" port="25"/>
+<Parameters/>
+<Styles/>
+<SessionInfo checkTime="40000" heartBeat="true"/>
+<FlashPrint popupFlashPrintSetting="true" fitPaper="false"/>
+<PdfPrint popupPdfPrintSetting="true"/>
+<AppletPrint popupAppletPrintSetting="false"/>
+<writeShortCuts writeShortCuts="true"/>
+<CustomLocale>
+<Parameters/>
+<DSName>
+<![CDATA[]]></DSName>
+<ColumnNames>
+<![CDATA[]]></ColumnNames>
+<ColumnTypes>
+<![CDATA[]]></ColumnTypes>
+</CustomLocale>
+</ReportServerParameter>

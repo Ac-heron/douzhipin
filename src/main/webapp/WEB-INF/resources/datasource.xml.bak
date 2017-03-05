@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DatasourceManager xmlVersion="20140501" releaseVersion="7.1.0">
+<ConnectionMap>
+<Connection name="orcl" class="com.fr.data.impl.JDBCDatabaseConnection">
+<DatabaseAttr newCharsetName="UTF-8"/>
+<JDBCDatabaseAttr url="jdbc:mysql://192.168.0.39:3306/myTask" driver="com.mysql.jdbc.Driver" user="root" password="___007b0037006c0075000600e4001900240030000e002b" encryptPassword="true">
+<DBCPAttr/>
+</JDBCDatabaseAttr>
+</Connection>
+</ConnectionMap>
+</DatasourceManager>

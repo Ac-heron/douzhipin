@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd"
+	default-lazy-init="true">
+
+	<description> 前端mvc servlet配置文件 </description>
+		
+	<!-- 静态资源 -->
+	<mvc:resources mapping="/attached/**"  location="/attached/" cache-period="31556926"/>
+	<mvc:resources mapping="/back/**"  location="/back/styles/blue_menu_top_standard/" cache-period="31556926"/> 
+	<mvc:resources mapping="/editor/**"  location="/editor/" cache-period="31556926"/>
+	<mvc:resources mapping="/vendor/**"  location="/vendor/" cache-period="31556926"/> 
+	<mvc:resources mapping="/fore/**"  location="/fore/" cache-period="31556926"/>
+	<mvc:resources mapping="/commons/**"  location="/commons/" cache-period="31556926"/>
+	<mvc:resources mapping="/help/**"  location="/help/" cache-period="31556926"/>
+	
+</beans>

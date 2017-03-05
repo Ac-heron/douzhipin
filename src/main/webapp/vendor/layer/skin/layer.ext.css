@@ -1,0 +1,8 @@
+.layui-layer-hui{
+	background-color: #E67E22;
+}
+
+.layui-layer-hui .layui-layer-content{
+	padding: 5px 25px;
+	font-size: 14px;
+}

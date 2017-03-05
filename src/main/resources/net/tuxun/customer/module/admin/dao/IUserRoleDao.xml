@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.tuxun.customer.module.admin.dao.IUserRoleDao">
+	
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+	
+	<select id="select" resultType="UserRole" parameterType="string">
+		SELECT
+			ID AS id,
+			USER_ID AS userId,
+			ROLE_ID AS roleId
+		FROM
+			U_USER_ROLE 
+		WHERE 
+			ID=#{id} 
+	</select>
+	
+	<insert id="insert" parameterType="UserRole">
+		INSERT INTO U_USER_ROLE  (
+			ID,
+			USER_ID,
+			ROLE_ID
+		) VALUES (
+			#{id, jdbcType=NVARCHAR},
+			#{userId, jdbcType=NVARCHAR},
+			#{roleId, jdbcType=NVARCHAR}
+		)
+	</insert>
+	
+	<update id="update" parameterType="UserRole">
+		UPDATE 
+			U_USER_ROLE  
+		SET
+			ID = #{id, jdbcType=NVARCHAR},
+			USER_ID = #{userId, jdbcType=NVARCHAR},
+			ROLE_ID = #{roleId, jdbcType=NVARCHAR}
+    	WHERE 
+    		ID = #{id} 
+	</update>
+	
+	<delete id="delete" parameterType="string">
+		DELETE FROM 
+			U_USER_ROLE 
+		WHERE 
+		<choose>
+			<when test="_parameter.indexOf(',') != -1">
+				ID = 'NONE'
+			<foreach item="item" collection="_parameter.split(',')">
+				OR ID = #{item}
+			</foreach>
+			</when>
+			<otherwise>
+				ID = #{_parameter}
+			</otherwise>
+		</choose>
+	</delete>
+	<delete id="deleteByUserId" parameterType="string">
+		DELETE FROM 
+			U_USER_ROLE 
+		WHERE 
+			USER_ID = #{userId}
+	</delete>
+
+	<select id="listPage" resultType="UserRole">
+		SELECT 
+			ID AS id,
+		FROM 
+			U_USER_ROLE  
+		WHERE 1=1
+			<if test="collates != null and collates.size > 0">
+			<foreach item="item" collection="collates" 
+                         open="ORDER BY" separator=",">
+                        ${item.sortField} ${item.sortType}
+            </foreach>
+			</if>
+	</select>
+</mapper>

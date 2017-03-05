@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.tuxun.customer.module.douzhipin.dao.IFahuodandetailDao">
+	
+	
+	<resultMap id="FahuodandetailMap" type="Fahuodandetail">
+		<id property="id" column="ID" jdbcType="NVARCHAR"/>
+		<result property="applyId" column="APPLY_ID" jdbcType="NVARCHAR"/>
+		<result property="dcode" column="dcode" jdbcType="NVARCHAR"/>
+		<result property="dname" column="dname" jdbcType="NVARCHAR"/>
+		<result property="dpackage" column="dpackage" jdbcType="NVARCHAR"/>
+        <result property="dprice" column="dprice" jdbcType="NVARCHAR"/>
+		<result property="caigounum" column="caigounum" jdbcType="NVARCHAR"/>
+		<result property="yanshounum" column="yanshounum" jdbcType="NVARCHAR"/>
+        <result property="remark" column="remark" jdbcType="NVARCHAR"/>
+        <result property="jine" column="jine" jdbcType="NVARCHAR"/>
+	</resultMap>
+	
+	<select id="select" resultMap="FahuodandetailMap" parameterType="string">
+		SELECT
+			*
+		FROM
+			FAHUODANDETAIL 
+		WHERE 
+			ID=#{id} 
+	</select>
+	
+	<insert id="insert" parameterType="Fahuodandetail">
+		INSERT INTO FAHUODANDETAIL  (
+			APPLY_ID,
+			ID,
+			dcode,
+			dpackage,
+			dname,
+			dprice,
+			caigounum,
+			yanshounum,
+			jine,
+			remark
+		) VALUES (
+			#{applyId, jdbcType=NVARCHAR},
+			#{id, jdbcType=NVARCHAR},
+			#{dcode, jdbcType=NVARCHAR},
+			#{dpackage, jdbcType=NVARCHAR},
+			#{dname, jdbcType=NVARCHAR},
+			#{dprice, jdbcType=NVARCHAR},
+			#{caigounum, jdbcType=NVARCHAR},
+			#{yanshounum, jdbcType=NVARCHAR},
+			#{jine, jdbcType=NVARCHAR},
+			#{remark, jdbcType=NVARCHAR}
+		)
+	</insert>
+	
+	
+	<update id="updateNotNull" parameterType="Fahuodandetail">
+		UPDATE 
+			FAHUODANDETAIL  
+		<set>
+			<if test="applyId != null">
+				APPLY_ID = #{applyId},
+			</if>
+			<if test="id != null">
+				ID = #{id},
+			</if>
+			<if test="dcode != null">
+                dcode = #{dcode},
+			</if>
+			<if test="dpackage != null">
+                dpackage = #{dpackage},
+			</if>
+			<if test="dname != null">
+                dname = #{dname},
+			</if>
+			<if test="dprice != null and dprice != ''">
+                dprice = #{dprice},
+			</if>
+			<if test="caigounum != null and caigounum != ''">
+                caigounum = #{caigounum},
+			</if>
+			<if test="yanshounum != null and yanshounum != ''">
+				yanshounum = #{yanshounum},
+			</if>
+            <if test="jine != null and jine != ''">
+                jine = #{jine},
+            </if>
+            <if test="remark != null">
+                remark = #{remark}
+            </if>
+		</set>
+    	WHERE 
+    		ID = #{id} 
+	</update>
+	
+	<delete id="delete" parameterType="string">
+		DELETE FROM 
+			FAHUODANDETAIL 
+		<where>
+			<foreach item="item" collection="_parameter.split(',')">
+				OR ID = #{item}
+			</foreach>
+		</where> 
+	</delete>
+	
+	<delete id="deleteByPrimaryTableId">
+		DELETE FROM 
+			FAHUODANDETAIL
+		WHERE
+			APPLY_ID = #{primaryTableId}
+	</delete>
+	
+	<select id="listByPrimaryTableId" resultMap="FahuodandetailMap">
+		SELECT
+			*
+		FROM
+			FAHUODANDETAIL
+		WHERE 
+			APPLY_ID = #{id}
+	</select>
+</mapper>

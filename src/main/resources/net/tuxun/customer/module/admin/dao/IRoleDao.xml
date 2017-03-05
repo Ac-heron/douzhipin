@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="net.tuxun.customer.module.admin.dao.IRoleDao">
+	
+	<cache type="org.mybatis.caches.ehcache.LoggingEhcache"/>
+	
+	<select id="listRoleByUserId" resultMap="classResultMap" parameterType="string" useCache="false">
+		SELECT
+			*
+		FROM
+			U_ROLE A LEFT JOIN U_USER_ROLE B ON A.ID = B.ROLE_ID 
+		WHERE 
+			B.USER_ID=#{id} 
+	</select>
+	<resultMap id="classResultMap" type="Role">
+		<id property="id" column="ID" />
+		<result property="name" column="NAME" />
+		<result property="perms" column="PERMS" />
+		<result property="isAllPerms" column="IS_ALL_PERMS" />
+		<result property="description" column="DESCRIPTION" />
+		<result property="isRangePerms" column="IS_RANGE_PERMS" />
+		<!-- <association property="org" column="id" javaType="Org" 
+		select="net.tuxun.component.admin.dao.IOrgDao.selectOrgByRoleId" />
+		<association property="department" column="id" javaType="Department" 
+		select="net.tuxun.component.admin.dao.IDepartmentDao.selectDepartmentByRoleId" /> -->
+	</resultMap>
+	
+	<select id="selectFullRole" resultMap="classResultMap" parameterType="string">
+		SELECT
+			*
+		FROM
+			U_ROLE 
+		WHERE 
+			ID=#{id} 
+	</select>
+	
+	<select id="select" resultType="Role" parameterType="string">
+		SELECT
+			ID AS id,
+			NAME AS name,
+			PERMS AS perms,
+			IS_ALL_PERMS AS isAllPerms,
+			DESCRIPTION AS description,
+			IS_RANGE_PERMS AS isRangePerms
+		FROM
+			U_ROLE 
+		WHERE 
+			ID=#{id} 
+	</select>
+	
+	<insert id="insert" parameterType="Role">
+		INSERT INTO U_ROLE  (
+			ID,
+			NAME,
+			PERMS,
+			IS_ALL_PERMS,
+			DESCRIPTION,
+			IS_RANGE_PERMS
+		) VALUES (
+			#{id, jdbcType=VARCHAR},
+			#{name, jdbcType=VARCHAR},
+			#{perms, jdbcType=CLOB},
+			#{isAllPerms, jdbcType=NUMERIC},
+			#{description, jdbcType=VARCHAR},
+			#{isRangePerms, jdbcType=NUMERIC}
+		)
+	</insert>
+	
+	<update id="update" parameterType="Role">
+		UPDATE 
+			U_ROLE  
+		SET
+			ID = #{id, jdbcType=VARCHAR},
+			NAME = #{name, jdbcType=VARCHAR},
+			PERMS = #{perms, jdbcType=CLOB},
+			IS_ALL_PERMS = #{isAllPerms, jdbcType=NUMERIC},
+			DESCRIPTION = #{description, jdbcType=VARCHAR},
+			IS_RANGE_PERMS = #{isRangePerms, jdbcType=NUMERIC}
+    	WHERE 
+    		ID = #{id} 
+	</update>
+	
+	<delete id="delete" parameterType="string">
+		DELETE FROM 
+			U_ROLE 
+		WHERE 
+		<choose>
+			<when test="_parameter.indexOf(',') != -1">
+				ID = 'NONE'
+			<foreach item="item" collection="_parameter.split(',')">
+				OR ID = #{item}
+			</foreach>
+			</when>
+			<otherwise>
+				ID = #{_parameter}
+			</otherwise>
+		</choose>
+	</delete>
+
+	<select id="listPage" resultType="Role" useCache="false">
+		SELECT 
+			ID AS id,
+			NAME AS name ,
+			IS_ALL_PERMS AS isAllPerms ,
+			IS_RANGE_PERMS AS isRangePerms ,
+			DESCRIPTION AS description 
+		FROM 
+			U_ROLE  
+		WHERE 1=1
+			<if test="search.name != null and search.name != '' ">
+				AND NAME LIKE CONCAT(CONCAT('%',#{search.name}),'%')
+			</if>
+			<if test="search.isAllPerms != null and search.isAllPerms != '' ">
+				AND IS_ALL_PERMS = #{search.isAllPerms}
+			</if>
+			<if test="search.isRangePerms != null and search.isRangePerms != '' ">
+				AND IS_RANGE_PERMS = #{search.isRangePerms}
+			</if>
+			<!-- <if test="search.orgid != null and search.orgid != '' ">
+				AND ID in (select o.ROLE_ID from U_ROLE_ORG_DEPARTMENT o where o.ORG_ID LIKE CONCAT(#{search.orgid}, '%'))
+			</if> -->
+			<if test="collates != null and collates.size > 0">
+			<foreach item="item" collection="collates" 
+                         open="ORDER BY" separator=",">
+                        ${item.sortField} ${item.sortType}
+            </foreach>
+			</if>
+	</select>
+	
+	<select id="listRoleTreeNodesByDpmId" resultType="TreeNode">
+		SELECT 
+			A.ID AS id,
+			A.NAME AS text
+		FROM 
+			U_ROLE A 
+				INNER JOIN
+			U_ROLE_ORG_DEPARTMENT B
+				ON B.ROLE_ID = A.ID
+		WHERE 
+			B.DEPARTMENT_ID = #{dpmId}
+	</select>
+</mapper>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DatasourceManager xmlVersion="20140501" releaseVersion="7.1.0">
+<ConnectionMap>
+<Connection name="orcl" class="com.fr.data.impl.JDBCDatabaseConnection">
+<DatabaseAttr newCharsetName="UTF-8"/>
+<JDBCDatabaseAttr url="jdbc:mysql://localhost:3306/douzhipin" driver="com.mysql.jdbc.Driver" user="root" password="" encryptPassword="true">
+<DBCPAttr initialSize="5" maxActive="100" maxIdle="50" testOnBorrow="false"/>
+</JDBCDatabaseAttr>
+</Connection>
+</ConnectionMap>
+</DatasourceManager>
